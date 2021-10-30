@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-
+//test
 //level 1
 char heslalvl1(char pole[])
 {
