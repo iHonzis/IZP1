@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-//test
+
 //level 1
 char heslalvl1(char pole[])
 {
@@ -30,7 +30,7 @@ char heslalvl2(char pole[], unsigned int param)
     found_upper = found_upper || (pole[i] >= 'A' && pole[i] <= 'Z'); 
     found_number = found_number || (pole[i] >= '0' && pole[i] <= '9'); 
     found_special = found_special || (pole[i] >= '!' && pole[i] <= '/') || (pole[i] >= ':' && pole[i] <= '@') || (pole[i] >= '[' && pole[i] <= '`') || (pole[i] >= '{' && pole[i] <= '~'); 
-    int splneno_pravidel = found_lower + found_upper + found_number + found_special;
+    unsigned int splneno_pravidel = found_lower + found_upper + found_number + found_special;
     //soucet splnenych podminek
     if(splneno_pravidel >= param) //porovnani zda je splneno zadani
     return 1;
@@ -40,18 +40,18 @@ char heslalvl2(char pole[], unsigned int param)
 
 //level 3 
 char heslalvl3 (char pole[], unsigned int param){
-  char znak = ch_arr[0];
-  int nalezeno = 1;
+  char znak = pole[0];
+  unsigned int nalezeno = 1;
   //int heslo = 100; // 100 znaku
   int i;
 
-  for (i = 1; ch_arr[i] != '\0'; i++) { // puvodne (i = 1; i < ch_arr[i] != '\0'; i++)
-    if (znak == ch_arr[i]) {
+  for (i = 1; pole[i] != '\0'; i++) { // puvodne (i = 1; i < ch_arr[i] != '\0'; i++)
+    if (znak == pole[i]) {
       nalezeno++; //podiva se na dalsi znak a pokud je stejny, inkrementuje hodnotu nalezeno
     }
     else {
       nalezeno = 1;
-      znak = ch_arr[i];
+      znak = pole[i];
     }
     if (nalezeno >= param){
       return 0;
@@ -94,28 +94,45 @@ char heslalvl4 (char pole[], unsigned int param)
 // return 0;
 // }
 
-int main(int argc, char* agrv[])
+int main(int argc, char* argv[])
 {
+  int levl;
+  int param ;
+  bool statsshow ;
 
-  int levl = 0, param=0;
-  bool statsshow=false;
+//fcking error for non used variables
+  if(levl||param||statsshow || argc){}
 
 // looping trough arguments EXCLUDING file redirection
  for(int counter=0; counter<argc; counter++){ 
-     printf("%s\n", agrv[counter]);
-    //level
+   //position 0 is for program name
+     printf("Argument checked: %s\n", argv[counter]);
+    //levelin position 1
     if (counter == 1){
-   levl = agrv[counter];
+      
+      if (*argv[counter] > '0' && *argv[counter] < '5')
+      {
+     printf("%s\n", argv[counter]);
+             levl = (int)*argv[counter];
+      }
+      else{
+        printf("Wrong LEVEL.");
+        return 1;
+      }
     }
-    //param
+    //param in position 2
     else if(counter == 2){
-      param = agrv[counter];
+      printf("Parameter checked\n");
+      param = (int)*argv[counter];
     }
 
+
 //stats required?
-    if(argv[counter] == "--stats")
+    if(strcmp(argv[counter], "--stats") == 0)
     {
       statsshow = true;
+
+      printf("Show stats");
     }
 }
 
@@ -138,11 +155,16 @@ int main(int argc, char* agrv[])
         buffer[length++] = c;
     }
 
+  char hesla[length];
+
     for (int j = 0; j < length; j++)
     {
-        putchar(buffer[j]);
-        
+        hesla[j] = buffer[j];
+        //putchar(buffer[j]);
+        printf("%c",hesla[j]);
     }
+
+    //sem napsat aby vyssi lvl delal i nizsi (dat do samotnych f-ci)
 
     return 0;
 }
